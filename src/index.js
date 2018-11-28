@@ -7,13 +7,18 @@ const Otsikko = (props) => (
   </div>
 )
 
-const Button = (props) => (
-  <button onClick = {props.klikki} >{props.nimi}</button>
+const Alaotsikko = (props) => (
+  <div>
+    <h2>{props.alaotsikko}</h2>
+  </div>
+)
+
+const Button = ({ klikki, nimi }) => (
+  <button onClick = {klikki} >{nimi}</button>
 )
 
 const Statistics = (props) => (
   <div>
-    <h2>{props.aliotsikko}</h2>
     <Statistic nimi = 'Hyvä:' arvo = {props.state.hyva} />
     <Statistic nimi = 'Neutraali:' arvo = {props.state.neutraali} />
     <Statistic nimi = 'Huono:' arvo = {props.state.huono} />
@@ -65,13 +70,27 @@ class App extends React.Component {
   render () {
     const otsake = 'Anna palautetta'
     const aliotsake = 'Statistiikka'
+    const statistiikka = () => {
+      if ((this.state.hyva + this.state.neutraali + this.state.huono) === 0) {
+        return (
+          <div>
+            <em>Ei vielä yhtään annettua palautetta</em>
+          </div>
+        )
+      }
+      return (
+        <Statistics state = {this.state} />
+      )
+    }
+
     return (
       <div>
         <Otsikko otsikko = {otsake} />
         <Button klikki = {this.klikHyva} nimi = "Hyvä" />
         <Button klikki = {this.klikNeutraali} nimi = "Neutraali" />
         <Button klikki = {this.klikHuono} nimi = "Huono" />
-        <Statistics state = {this.state} aliotsikko = {aliotsake} />
+        <Alaotsikko alaotsikko = {aliotsake} />
+        <div>{statistiikka()}</div>
       </div>
     )
   }
