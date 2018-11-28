@@ -18,8 +18,16 @@ const Statistiikka = (props) => (
     <p>Hyvä: {props.state.hyva} </p>
     <p>Neutraali: {props.state.neutraali} </p>
     <p>Huono: {props.state.huono} </p>
+    <p>Keskiarvo: {LaskeKeskiarvo(props)} </p>
+    <p>Positiivisia: {Positiivisia(props)} %</p>
   </div>
 )
+
+const Yhteensa = (props) => props.state.hyva + props.state.neutraali + props.state.huono
+
+const LaskeKeskiarvo = (props) => (props.state.hyva - props.state.huono) / Yhteensa(props)
+
+const Positiivisia = (props) => (props.state.hyva / Yhteensa(props)) * 100
 
 class App extends React.Component {
   constructor(props) {
